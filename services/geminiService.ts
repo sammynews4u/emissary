@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { MessageInputs, EmissaryResponse, SendPreference } from "../types";
 
@@ -112,11 +111,24 @@ export const generateEmissaryVisual = async (message: string, vibe: string): Pro
     }
   });
 
-  for (const part of response.candidates[0].content.parts) {
-    if (part.inlineData) {
-      return `data:image/png;base64,${part.inlineData.data}`;
-    }
+  // Guard against undefined candidates and parts
+// Safe handling of response.candidates
+const candidates = response?.candidates;
+if (!candidates || candidates.length === 0) {
+  throw new Error("Visual synthesis failed: no candidates returned");
+}
+
+const parts = candidates[0].content?.parts;
+if (!parts || parts.length === 0) {
+  throw new Error("Visual synthesis failed: no content parts returned");
+}
+
+for (const part of parts) {
+  if (part.inlineData) {
+    return `data:image/png;base64,${part.inlineData.data}`;
   }
-  
-  throw new Error("Visual synthesis failed.");
+}
+
+throw new Error("Visual synthesis failed: no inlineData found");
+
 };
