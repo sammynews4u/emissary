@@ -123,8 +123,8 @@ const App: React.FC = () => {
 
     if (isEmissaryDelivery) {
       const handler = PaystackPop.setup({
-        key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx', 
-        email: lastInputs.receiverEmail || 'emissary@digital-emissary.com',
+        key: 'pk_live_cee6f3601a4f4fc1547dc8179adb99ddeb433acd', 
+        email: lastInputs.receiverEmail || 'me@samueloadesanya.com.ng',
         amount: 500 * 100, 
         currency: 'NGN',
         callback: (response: any) => {
